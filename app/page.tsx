@@ -47,7 +47,7 @@ export default function ComingSoon() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4, duration: 0.8 }}
       >
-        We're working hard to bring you a new property experience!
+        We&apos;re working hard to bring you a new property experience!
       </motion.p>
 
       {/* Animated Icons */}
