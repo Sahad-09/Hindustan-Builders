@@ -1,79 +1,86 @@
-"use client"
-import { getPropertiesAction } from '@/lib/actions/actions';
-import { useEffect, useState } from 'react';
-import { PropertyTS } from '@/types/properties';
-import Image from 'next/image';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+"use client";
 
-export default function Home() {
-  const [properties, setProperties] = useState<PropertyTS[]>([]);
-  const [error, setError] = useState<string | null>(null);
+import { motion } from "framer-motion";
+import { FaHome, FaBuilding, FaWarehouse, FaTree } from "react-icons/fa";
 
-  useEffect(() => {
-    const fetchProperties = async () => {
-      try {
-        const response = await getPropertiesAction();
-        if (response.success) {
-          setProperties(response.data || []);
-        } else {
-          setError(response.error || "Error in getting response");
-        }
-      } catch (err) {
-        setError("Failed to fetch properties");
-      }
-    };
-
-    fetchProperties();
-  }, []);
+export default function ComingSoon() {
+  const iconVariants = {
+    hidden: { opacity: 0, scale: 0.5 },
+    visible: (i: number) => ({
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delay: i * 0.3,
+        duration: 0.5,
+        type: "spring",
+        stiffness: 100,
+      },
+    }),
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-6xl mx-auto space-y-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex flex-col items-center justify-center p-6 text-white">
+      {/* Company Name */}
+      <motion.h1
+        className="text-4xl md:text-6xl font-bold mb-4 text-center"
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
+      >
+        Hindustan Builders
+      </motion.h1>
 
-        {/* Properties List */}
-        <div>
-          <h2 className="text-2xl font-bold mb-6">Properties</h2>
+      {/* Title */}
+      <motion.h2
+        className="text-5xl md:text-7xl font-bold mb-4 text-center"
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
+      >
+        Coming Soon
+      </motion.h2>
 
-          {error && (
-            <div className="bg-red-50 text-red-600 p-4 rounded-lg mb-6">
-              {error}
-            </div>
-          )}
+      {/* Subtitle */}
+      <motion.p
+        className="text-lg md:text-xl text-gray-200 text-center mb-12"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.4, duration: 0.8 }}
+      >
+        We're working hard to bring you a new property experience!
+      </motion.p>
 
-          {properties.length === 0 && !error ? (
-            <div className="text-center py-12 bg-white rounded-lg">
-              <p className="text-gray-500">No properties available</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {properties.map((property, index) => (
-                <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="relative aspect-video w-full">
-                    {property.imageUrl ? (
-                      <Image
-                        src={property.imageUrl}
-                        alt={property.title}
-                        fill
-                        className="object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                        <span className="text-gray-400">No image available</span>
-                      </div>
-                    )}
-                  </div>
-                  <CardHeader>
-                    <CardTitle>{property.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-600 line-clamp-3">{property.description}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
-        </div>
+      {/* Animated Icons */}
+      <div className="flex gap-8">
+        {[
+          { Icon: FaHome, label: "Residential" },
+          { Icon: FaBuilding, label: "Commercial" },
+          { Icon: FaWarehouse, label: "Industrial" },
+          { Icon: FaTree, label: "Agricultural" },
+        ].map(({ Icon, label }, index) => (
+          <motion.div
+            key={label}
+            className="flex flex-col items-center space-y-2"
+            custom={index}
+            initial="hidden"
+            animate="visible"
+            variants={iconVariants}
+          >
+            <Icon className="text-6xl md:text-7xl text-white" />
+            <p className="text-sm md:text-base text-gray-300">{label}</p>
+          </motion.div>
+        ))}
       </div>
+
+      {/* Footer */}
+      <motion.footer
+        className="absolute bottom-4 text-gray-300 text-sm"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 0.8 }}
+      >
+        &copy; {new Date().getFullYear()} Hindustan Builders. All rights reserved.
+      </motion.footer>
     </div>
   );
 }
