@@ -2,7 +2,6 @@
 import { getPropertiesAction } from '@/lib/actions/actions';
 import { useEffect, useState } from 'react';
 import { PropertyTS } from '@/types/properties';
-import NewDataForm from '@/components/NewPropertyForm';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
