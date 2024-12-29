@@ -12,6 +12,8 @@ async function main() {
             data: {
                 title: faker.company.catchPhrase(),
                 description: faker.lorem.paragraph(),
+                imageUrl: ["https://picsum.photos/200/300", "https://picsum.photos/200/300"],
+                imageKey: "12"
             },
         });
     }

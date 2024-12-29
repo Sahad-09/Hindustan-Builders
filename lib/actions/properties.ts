@@ -25,7 +25,7 @@ export async function getPropertyById(id: string) {
 }
 
 // Create a new property
-export async function createProperty(title: string, description: string, imageKey: string, imageUrl: string) {
+export async function createProperty(title: string, description: string, imageKey: string, imageUrl: string[]) {
     try {
         const newProperty = await prisma.property.create({
             data: {
@@ -43,14 +43,18 @@ export async function createProperty(title: string, description: string, imageKe
 }
 
 // Update a property
-export async function updateProperty(
-    id: string,
-    data: { title?: string; description?: string }
+export async function updateProperty(id: string | undefined,
+    title: string, description: string, imageKey: string, imageUrl: string[]
 ) {
     try {
         const updatedProperty = await prisma.property.update({
             where: { id },
-            data,
+            data: {
+                title,
+                description,
+                imageKey,
+                imageUrl
+            }
         });
         return updatedProperty;
     } catch (error) {

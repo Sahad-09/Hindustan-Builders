@@ -8,9 +8,9 @@ datasource db {
 }
 
 model Property {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
-  imageUrl    String
+  imageUrl    String[]
   imageKey    String
 }

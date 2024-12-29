@@ -34,20 +34,19 @@ export async function getPropertyByIdAction(id: string) {
 }
 
 // Create property
-export async function createPropertyAction(title: string, description: string, imageKey: string, imageUrl: string) {
+export async function createPropertyAction(title: string, description: string, imageKey: string, imageUrl: string[]) {
     await createProperty(title, description, imageKey, imageUrl)
     revalidatePath("/properties");
 }
 
 // Update property
 export async function updatePropertyAction(
-    id: string,
-    data: { title?: string; description?: string }
+    id: string | undefined, title: string, description: string, imageKey: string, imageUrl: string[]
 ) {
     try {
-        const updatedProperty = await updateProperty(id, data);
-        revalidatePath("/properties");
-        revalidatePath(`/properties/${id}`);
+        const updatedProperty = await updateProperty(id, title, description, imageKey, imageUrl);
+        revalidatePath("/admin");
+        revalidatePath(`/admin/${id}`);
         return { success: true, data: updatedProperty };
     } catch (error) {
         return { success: false, error: "Failed to update property" };
@@ -58,7 +57,7 @@ export async function updatePropertyAction(
 export async function deletePropertyAction(id: string) {
     try {
         const deletedProperty = await deleteProperty(id);
-        revalidatePath("/properties");
+        revalidatePath("/admin");
         return { success: true, data: deletedProperty };
     } catch (error) {
         return { success: false, error: "Failed to delete property" };
