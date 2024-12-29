@@ -1,4 +1,3 @@
-import { ModeToggle } from "@/components/mode-toggle";
 
 function Snowfall() {
   const snowflakes = Array.from({ length: 100 }, (_, i) => i); // Generate 100 snowflakes
