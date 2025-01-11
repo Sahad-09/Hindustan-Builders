@@ -6,24 +6,23 @@ import { Button } from "@/components/ui/button";
 const HeroCarousel = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
 
-
     const properties = [
         {
-            image: "https://picsum.photos/1920/1080",
+            image: "/image1.jpg",
             title: "Luxury Villa",
             location: "Beverly Hills",
             price: "$5,900,000",
             description: "Stunning 5-bedroom modern villa with ocean view"
         },
         {
-            image: "https://picsum.photos/1920/1080",
+            image: "/image2.jpg",
             title: "Urban Loft",
             location: "Downtown",
             price: "$2,100,000",
             description: "Contemporary loft with panoramic city views"
         },
         {
-            image: "https://picsum.photos/1920/1080",
+            image: "/image3.jpg",
             title: "Seaside Manor",
             location: "Malibu Beach",
             price: "$8,500,000",
@@ -42,7 +41,7 @@ const HeroCarousel = () => {
     const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + properties.length) % properties.length);
 
     return (
-        <div className="relative h-[80vh] overflow-hidden">
+        <div className="relative h-[90vh] overflow-hidden pt-[6.5rem]">
             <div className="relative h-full">
                 {properties.map((property, index) => (
                     <div
@@ -50,29 +49,29 @@ const HeroCarousel = () => {
                         className={`absolute inset-0 transition-opacity duration-1000 
                         ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
                     >
-                        <div className="absolute inset-0">
+                        <div className="absolute inset-0 ">
                             <img
                                 src={property.image}
                                 alt={property.title}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-cover rounded-md"
                             />
                             <div className="absolute inset-0 bg-background/50" />
                         </div>
 
-                        <div className="relative h-full flex items-center">
+                        <div className="relative h-full flex items-center justify-center">
                             <div className="container mx-auto px-6">
-                                <Card className="max-w-2xl bg-background/80 backdrop-blur">
+                                <Card className="max-w-lg bg-background/60 backdrop-blur-xl shadow-lg rounded-lg">
                                     <CardContent className="space-y-4 p-6">
-                                        <h2 className="text-5xl font-bold">
+                                        <h2 className="text-5xl font-bold text-white">
                                             {property.title}
                                         </h2>
                                         <p className="text-2xl text-muted-foreground">
                                             {property.location}
                                         </p>
-                                        <p className="text-3xl font-bold">
+                                        {/* <p className="text-3xl font-bold">
                                             {property.price}
-                                        </p>
-                                        <p className="text-lg text-muted-foreground">
+                                        </p> */}
+                                        <p className="text-lg text-white">
                                             {property.description}
                                         </p>
                                         <Button size="lg">
@@ -120,5 +119,3 @@ const HeroCarousel = () => {
 };
 
 export default HeroCarousel;
-
-

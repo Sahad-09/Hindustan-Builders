@@ -8,9 +8,31 @@ datasource db {
 }
 
 model Property {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  description String
-  imageUrl    String[]
-  imageKey    String
+  id                     String     @id @default(auto()) @map("_id") @db.ObjectId
+  title                  String
+  description            String
+  imageUrl               String[]
+  imageKey               String
+  projectStatus          String // e.g., "New Launch"
+  configurations         String // e.g., "2 BHK"
+  superBuiltUpArea       String // e.g., 832 (Sq.Ft.)
+  reraCarpetArea         String // e.g., 612 (Sq.Ft.)
+  apartmentBlueprintUrls String[] // URLs for apartment blueprints
+  typicalFloorPlanUrls   String[] // URLs for typical floor plan blueprints
+  address                String // Property address
+  city                   String // City
+  state                  String // State
+  landmarks              Landmark[] // Array of nearby landmarks
+  location               Location // Geographic coordinates
+}
+
+type Landmark {
+  name     String
+  distance String
+  type     String
+}
+
+type Location {
+  latitude  Float
+  longitude Float
 }

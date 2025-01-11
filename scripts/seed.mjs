@@ -12,8 +12,26 @@ async function main() {
             data: {
                 title: faker.company.catchPhrase(),
                 description: faker.lorem.paragraph(),
-                imageUrl: ["https://picsum.photos/200/300", "https://picsum.photos/200/300"],
-                imageKey: "12"
+                imageUrl: [
+                    "https://picsum.photos/200/300",
+                    "https://picsum.photos/200/300"
+                ],
+                imageKey: "12",
+                projectStatus: faker.helpers.arrayElement(['New Launch', 'Under Construction', 'Completed']),
+                configurations: faker.helpers.arrayElement(['1 BHK', '2 BHK', '3 BHK']),
+                superBuiltUpArea: faker.number.int({ min: 500, max: 1500, precision: 0.01 }).toString(),  // Converted to string
+                reraCarpetArea: faker.number.int({ min: 400, max: 1200, precision: 0.01 }).toString(),  // Converted to string
+                apartmentBlueprintUrls: [
+                    "https://picsum.photos/600/400",
+                    "https://picsum.photos/600/400"
+                ],
+                typicalFloorPlanUrls: [
+                    "https://picsum.photos/600/400",
+                    "https://picsum.photos/600/400"
+                ],
+                address: faker.address.streetAddress(),
+                city: faker.address.city(),
+                state: faker.address.state(),
             },
         });
     }

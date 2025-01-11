@@ -1,127 +1,148 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Home, Users, TrendingUp, Shield, Globe, Heart } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Home, Users, TrendingUp, Shield, Building, Heart } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 
 const featureItems = [
     {
         icon: Home,
-        title: 'Wide Range',
-        text: 'An extensive collection of properties tailored to your needs.',
+        title: 'Premium Listings',
+        text: 'Exclusive access to high-end properties and luxury real estate opportunities.',
+        category: 'properties'
     },
     {
         icon: Users,
         title: 'Expert Agents',
-        text: 'Work with professionals who know the market inside out.',
+        text: 'Licensed professionals with deep knowledge of local real estate markets.',
+        category: 'team'
     },
     {
         icon: TrendingUp,
-        title: 'Market Leaders',
-        text: 'A top-rated agency with years of industry experience.',
+        title: 'Market Analysis',
+        text: 'Data-driven insights to help you make informed property investments.',
+        category: 'achievements'
     },
     {
         icon: Shield,
-        title: 'Trusted Partners',
-        text: 'Reliable and secure services for a worry-free experience.',
+        title: 'Secure Deals',
+        text: 'Transparent transactions with thorough legal and financial protection.',
+        category: 'properties'
     },
     {
-        icon: Globe,
-        title: 'Global Reach',
-        text: 'Connecting you to opportunities worldwide.',
+        icon: Building,
+        title: 'Property Portfolio',
+        text: 'Record-breaking sales and successful property management history.',
+        category: 'achievements'
     },
     {
         icon: Heart,
-        title: 'Customer Focused',
-        text: 'Your satisfaction is at the heart of everything we do.',
-    },
+        title: 'Personalized Service',
+        text: 'Dedicated agents who understand your unique real estate goals.',
+        category: 'team'
+    }
 ];
 
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.15,
-        },
-    },
-};
-
-const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.5,
-            ease: 'easeOut',
-        },
-    },
-    hover: {
-        scale: 1.05,
-        rotate: 3,
-        transition: {
-            type: 'spring',
-            stiffness: 300,
-        },
-    },
-};
-
-const Features = () => (
-    <section className="py-16">
-        <div className="container mx-auto px-6">
-            <motion.h2
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="text-center text-4xl font-bold tracking-tight text-foreground"
-            >
-                Why Choose Us
-            </motion.h2>
-            <motion.p
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-center mt-4 text-lg text-muted-foreground"
-            >
-                Discover the reasons that set us apart and make us your go-to choice.
-            </motion.p>
-            <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12"
-            >
-                {featureItems.map(({ icon: Icon, title, text }, i) => (
+const Features = () => {
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center space-y-4 mb-12 relative z-10"
+        >
+            <div className="relative min-h-screen overflow-hidden">
+                <div className="container mx-auto px-6">
                     <motion.div
-                        key={i}
-                        variants={itemVariants}
-                        whileHover="hover"
-                        className="flex flex-col items-center text-center border border-muted rounded-lg p-6 shadow-md transition-all"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-center space-y-4 mb-12 relative z-10"
                     >
-                        <motion.div
-                            className="p-4 rounded-full border border-primary"
-                            whileHover={{ scale: 1.2 }}
-                        >
-                            <Icon size={40} className="text-primary" />
-                        </motion.div>
-                        <h3 className="mt-4 text-xl font-semibold text-foreground">
-                            {title}
-                        </h3>
-                        <p className="mt-2 text-sm text-muted-foreground">{text}</p>
+                        <div className="flex justify-center">
+                            <CheckCircle className="w-12 h-12 text-primary" />
+                        </div>
+                        <h2 className="text-4xl font-bold tracking-tight">
+                            Why Choose Us
+                        </h2>
+                        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                            Your trusted partner in finding the perfect property investment.
+                        </p>
+                        <div className="h-1 w-20 bg-gradient-to-r from-white/60 to-transparent mx-auto" />
                     </motion.div>
-                ))}
-            </motion.div>
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.5 }}
-                className="mt-12 text-center"
-            >
-                <button className="px-6 py-3 rounded-md text-white bg-primary hover:bg-primary-dark">
-                    Learn More
-                </button>
-            </motion.div>
-        </div>
-    </section>
-);
+
+                    <Tabs defaultValue="all" className="w-full relative z-10">
+                        <TabsList className="grid w-full grid-cols-4 max-w-xl mx-auto mb-8">
+                            <TabsTrigger value="all">All</TabsTrigger>
+                            <TabsTrigger value="properties">Properties</TabsTrigger>
+                            <TabsTrigger value="team">Team</TabsTrigger>
+                            <TabsTrigger value="achievements">Achievements</TabsTrigger>
+                        </TabsList>
+
+                        <TabsContent value="all" className="mt-0">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {featureItems.map((item, index) => (
+                                    <motion.div
+                                        key={index}
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        whileInView={{ opacity: 1, scale: 1 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                                    >
+                                        <Card className="backdrop-blur-sm bg-white/10 border-none shadow-xl hover:shadow-2xl transition-all duration-300 h-48">
+                                            <CardHeader>
+                                                <div className="flex items-center space-x-4">
+                                                    <div className="p-2 rounded-full bg-primary/10">
+                                                        <item.icon className="w-6 h-6 text-primary" />
+                                                    </div>
+                                                    <CardTitle>{item.title}</CardTitle>
+                                                </div>
+                                            </CardHeader>
+                                            <CardContent>
+                                                <p className="text-muted-foreground">{item.text}</p>
+                                            </CardContent>
+                                        </Card>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </TabsContent>
+
+                        {['properties', 'team', 'achievements'].map((category) => (
+                            <TabsContent key={category} value={category} className="mt-0">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {featureItems
+                                        .filter(item => item.category === category)
+                                        .map((item, index) => (
+                                            <motion.div
+                                                key={index}
+                                                initial={{ opacity: 0, scale: 0.9 }}
+                                                whileInView={{ opacity: 1, scale: 1 }}
+                                                viewport={{ once: true }}
+                                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                            >
+                                                <Card className="backdrop-blur-sm bg-white/10 border-none shadow-xl hover:shadow-2xl transition-all duration-300 h-48">
+                                                    <CardHeader>
+                                                        <div className="flex items-center space-x-4">
+                                                            <div className="p-2 rounded-full bg-primary/10">
+                                                                <item.icon className="w-6 h-6 text-primary" />
+                                                            </div>
+                                                            <CardTitle>{item.title}</CardTitle>
+                                                        </div>
+                                                    </CardHeader>
+                                                    <CardContent>
+                                                        <p className="text-muted-foreground">{item.text}</p>
+                                                    </CardContent>
+                                                </Card>
+                                            </motion.div>
+                                        ))}
+                                </div>
+                            </TabsContent>
+                        ))}
+                    </Tabs>
+                </div>
+            </div >
+        </motion.div>
+    );
+};
 
 export default Features;

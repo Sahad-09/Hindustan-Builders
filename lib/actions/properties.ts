@@ -1,5 +1,16 @@
 import prisma from '../prismadb';
 
+interface Landmark {
+    name: string;
+    distance: string;
+    type: string;
+}
+
+interface Location {
+    latitude: number;
+    longitude: number;
+}
+
 // Get all properties
 export async function getProperties() {
     try {
@@ -12,7 +23,7 @@ export async function getProperties() {
 }
 
 // Get a single property by ID
-export async function getPropertyById(id: string) {
+export async function getPropertyById(id: string | undefined) {
     try {
         const property = await prisma.property.findUnique({
             where: { id },
@@ -25,14 +36,41 @@ export async function getPropertyById(id: string) {
 }
 
 // Create a new property
-export async function createProperty(title: string, description: string, imageKey: string, imageUrl: string[]) {
+export async function createProperty(
+    title: string,
+    description: string,
+    imageKey: string,
+    imageUrl: string[],
+    projectStatus: string,
+    configurations: string,
+    superBuiltUpArea: string,
+    reraCarpetArea: string,
+    apartmentBlueprintUrls: string[],
+    typicalFloorPlanUrls: string[],
+    address: string,
+    city: string,
+    state: string,
+    landmarks: Landmark[],
+    location: Location
+) {
     try {
         const newProperty = await prisma.property.create({
             data: {
                 title,
                 description,
                 imageKey,
-                imageUrl
+                imageUrl,
+                projectStatus,
+                configurations,
+                superBuiltUpArea,
+                reraCarpetArea,
+                apartmentBlueprintUrls,
+                typicalFloorPlanUrls,
+                address,
+                city,
+                state,
+                landmarks,
+                location
             }
         });
         return newProperty;
@@ -43,8 +81,23 @@ export async function createProperty(title: string, description: string, imageKe
 }
 
 // Update a property
-export async function updateProperty(id: string | undefined,
-    title: string, description: string, imageKey: string, imageUrl: string[]
+export async function updateProperty(
+    id: string | undefined,
+    title: string,
+    description: string,
+    imageKey: string,
+    imageUrl: string[],
+    projectStatus: string,
+    configurations: string,
+    superBuiltUpArea: string,
+    reraCarpetArea: string,
+    apartmentBlueprintUrls: string[],
+    typicalFloorPlanUrls: string[],
+    address: string,
+    city: string,
+    state: string,
+    landmarks: Landmark[],
+    location: Location
 ) {
     try {
         const updatedProperty = await prisma.property.update({
@@ -53,7 +106,18 @@ export async function updateProperty(id: string | undefined,
                 title,
                 description,
                 imageKey,
-                imageUrl
+                imageUrl,
+                projectStatus,
+                configurations,
+                superBuiltUpArea,
+                reraCarpetArea,
+                apartmentBlueprintUrls,
+                typicalFloorPlanUrls,
+                address,
+                city,
+                state,
+                landmarks,
+                location
             }
         });
         return updatedProperty;

@@ -3,15 +3,11 @@ import { getPropertyByIdAction } from "@/lib/actions/actions";
 import EditPropertyForm from "@/components/EditPropertyForm";
 import AdminProtected from '@/components/AdminProtected';
 
-interface PageProps {
-    params: {
-        id: string;
-    };
-}
 
-export default async function EditPropertyPage({ params }: PageProps) {
+export default async function EditPropertyPage({ params }: { params: { id: string } }) {
     try {
-        const response = await getPropertyByIdAction(params.id);
+        const { id } = params;
+        const response = await getPropertyByIdAction(id);
 
         if (!response.success) {
             return (
@@ -30,7 +26,7 @@ export default async function EditPropertyPage({ params }: PageProps) {
             <AdminProtected>
                 <EditPropertyForm property={property} />
             </AdminProtected>
-        )
+        );
     } catch (error) {
         return (
             <AdminProtected>

@@ -8,6 +8,18 @@ import {
     getProperties,
     getPropertyById
 } from "./properties";
+import prisma from '../prismadb';
+
+interface Landmark {
+    name: string;
+    distance: string;
+    type: string;
+}
+
+interface Location {
+    latitude: number;
+    longitude: number;
+}
 
 // Get all properties
 export async function getPropertiesAction() {
@@ -21,7 +33,7 @@ export async function getPropertiesAction() {
 }
 
 // Get single property
-export async function getPropertyByIdAction(id: string) {
+export async function getPropertyByIdAction(id: string | undefined) {
     try {
         const property = await getPropertyById(id);
         if (!property) {
@@ -34,17 +46,81 @@ export async function getPropertyByIdAction(id: string) {
 }
 
 // Create property
-export async function createPropertyAction(title: string, description: string, imageKey: string, imageUrl: string[]) {
-    await createProperty(title, description, imageKey, imageUrl)
+export async function createPropertyAction(
+    title: string,
+    description: string,
+    imageKey: string,
+    imageUrl: string[],
+    projectStatus: string,
+    configurations: string,
+    superBuiltUpArea: string,
+    reraCarpetArea: string,
+    apartmentBlueprintUrls: string[],
+    typicalFloorPlanUrls: string[],
+    address: string,
+    city: string,
+    state: string,
+    landmarks: Landmark[],
+    location: Location
+) {
+    await createProperty(
+        title,
+        description,
+        imageKey,
+        imageUrl,
+        projectStatus,
+        configurations,
+        superBuiltUpArea,
+        reraCarpetArea,
+        apartmentBlueprintUrls,
+        typicalFloorPlanUrls,
+        address,
+        city,
+        state,
+        landmarks,
+        location
+    );
     revalidatePath("/properties");
 }
 
 // Update property
 export async function updatePropertyAction(
-    id: string | undefined, title: string, description: string, imageKey: string, imageUrl: string[]
+    id: string | undefined,
+    title: string,
+    description: string,
+    imageKey: string,
+    imageUrl: string[],
+    projectStatus: string,
+    configurations: string,
+    superBuiltUpArea: string,
+    reraCarpetArea: string,
+    apartmentBlueprintUrls: string[],
+    typicalFloorPlanUrls: string[],
+    address: string,
+    city: string,
+    state: string,
+    landmarks: Landmark[],
+    location: Location
 ) {
     try {
-        const updatedProperty = await updateProperty(id, title, description, imageKey, imageUrl);
+        const updatedProperty = await updateProperty(
+            id,
+            title,
+            description,
+            imageKey,
+            imageUrl,
+            projectStatus,
+            configurations,
+            superBuiltUpArea,
+            reraCarpetArea,
+            apartmentBlueprintUrls,
+            typicalFloorPlanUrls,
+            address,
+            city,
+            state,
+            landmarks,
+            location
+        );
         revalidatePath("/admin");
         revalidatePath(`/admin/${id}`);
         return { success: true, data: updatedProperty };
@@ -63,3 +139,113 @@ export async function deletePropertyAction(id: string) {
         return { success: false, error: "Failed to delete property" };
     }
 }
+
+
+// Create landmark by property ID
+export async function createLandmarkByIdAction(
+    propertyId: string,
+    name: string,
+    distance: string,
+    type: string
+) {
+    try {
+        // First, check if the property exists
+        const property = await getPropertyById(propertyId);
+        if (!property) {
+            return { success: false, error: "Property not found" };
+        }
+
+        // Create a new landmark and add it to the property's landmarks array
+        const updatedProperty = await prisma.property.update({
+            where: { id: propertyId },
+            data: {
+                landmarks: {
+                    push: {
+                        name,
+                        distance,
+                        type
+                    }
+                }
+            }
+        });
+
+        // Optionally, revalidate paths
+        revalidatePath(`/properties/${propertyId}`);
+
+        return { success: true, data: updatedProperty };
+    } catch (error) {
+        console.error("Error creating landmark:", error);
+        return { success: false, error: "Failed to create landmark" };
+    }
+}
+
+
+export async function deleteLandmark(propertyId: string, landmarkIndex: number) {
+    try {
+        // First, fetch the current property to get its landmarks
+        const property = await prisma.property.findUnique({
+            where: { id: propertyId },
+            select: { landmarks: true }
+        })
+
+        if (!property) {
+            throw new Error('Property not found')
+        }
+
+        // Create a new landmarks array without the specified index
+        const updatedLandmarks = property.landmarks.filter((_, index) => index !== landmarkIndex)
+
+        // Update the property with the new landmarks array
+        const updatedProperty = await prisma.property.update({
+            where: { id: propertyId },
+            data: { landmarks: updatedLandmarks }
+        })
+
+        // Revalidate the page to reflect changes
+        revalidatePath('/properties/[id]')
+        revalidatePath('/properties')
+
+        return { success: true, property: updatedProperty }
+    } catch (error) {
+        console.error('Error deleting landmark:', error)
+        return { success: false, error: 'Failed to delete landmark' }
+    }
+}
+
+
+
+export async function addLandmark(
+    propertyId: string,
+    newLandmark: { name: string; distance: string; type: string }
+) {
+    try {
+        // First, fetch the current property to get its landmarks
+        const property = await prisma.property.findUnique({
+            where: { id: propertyId },
+            select: { landmarks: true }
+        })
+
+        if (!property) {
+            throw new Error('Property not found')
+        }
+
+        // Create a new landmarks array with the new landmark added
+        const updatedLandmarks = [...property.landmarks, newLandmark]
+
+        // Update the property with the new landmarks array
+        const updatedProperty = await prisma.property.update({
+            where: { id: propertyId },
+            data: { landmarks: updatedLandmarks }
+        })
+
+        // Revalidate the page to reflect changes
+        revalidatePath('/properties/[id]')
+        revalidatePath('/properties')
+
+        return { success: true, property: updatedProperty }
+    } catch (error) {
+        console.error('Error adding landmark:', error)
+        return { success: false, error: 'Failed to add landmark' }
+    }
+}
+
