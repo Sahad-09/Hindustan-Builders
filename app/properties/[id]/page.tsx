@@ -59,8 +59,8 @@ interface Property {
     address?: string;
     city?: string;
     state?: string;
-    landmarks?: Landmark[];
-    location?: Location;
+    landmarks?: Landmark[] | any[]; // Added any[] as an alternative type
+    location?: Location | any;      // Added any as an alternative type
 }
 
 type PropertyResponse = {

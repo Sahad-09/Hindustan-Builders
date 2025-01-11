@@ -9,7 +9,18 @@ import { getPropertiesAction, deletePropertyAction } from '@/lib/actions/actions
 import { useCallback } from 'react';
 import AdminProtected from '@/components/AdminProtected';
 
-type PropertyTS = {
+interface Landmark {
+    name: string;
+    distance: string;
+    type: string;
+}
+
+interface Location {
+    latitude: number;
+    longitude: number;
+}
+
+interface Property {
     id: string;
     title: string;
     description: string;
@@ -24,25 +35,14 @@ type PropertyTS = {
     address?: string;
     city?: string;
     state?: string;
-    landmarks?: Landmark[];
-    location?: Location;
-};
-
-type Landmark = {
-    name: string;
-    distance: string;
-    type: string;
-};
-
-type Location = {
-    latitude: number;
-    longitude: number;
-};
+    landmarks?: Landmark[] | any[]; // Added any[] as an alternative type
+    location?: Location | any;      // Added any as an alternative type
+}
 
 
 const AdminDashboard = () => {
     const [isDeleting, setIsDeleting] = React.useState<string | null>(null);
-    const [properties, setProperties] = React.useState<PropertyTS[]>([]);
+    const [properties, setProperties] = React.useState<Property[]>([]);
     const [error, setError] = React.useState<string | null>(null);
     const [isLoading, setIsLoading] = React.useState(true);
 

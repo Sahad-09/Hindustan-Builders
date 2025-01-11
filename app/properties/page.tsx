@@ -23,35 +23,35 @@ import { Search, Building2, MapPin, SquareStack, Maximize2, FileImage, Home } fr
 import Link from 'next/link';
 import Image from "next/image";
 
-type Landmark = {
+interface Landmark {
     name: string;
     distance: string;
     type: string;
-};
+}
 
-type Location = {
+interface Location {
     latitude: number;
     longitude: number;
-};
+}
 
-type PropertyTS = {
+interface Property {
     id: string;
     title: string;
     description: string;
     imageUrl: string[] | string;
     imageKey: string;
-    projectStatus?: string; // Optional field, e.g., "New Launch"
-    configurations?: string; // Optional, e.g., "2 BHK"
-    superBuiltUpArea?: string; // Optional, e.g., "832 (Sq.Ft.)"
-    reraCarpetArea?: string; // Optional, e.g., "612 (Sq.Ft.)"
-    apartmentBlueprintUrls?: string[]; // Optional, URLs for apartment blueprints
-    typicalFloorPlanUrls?: string[]; // Optional, URLs for typical floor plan blueprints
-    address?: string; // Optional, Property address
-    city?: string; // Optional, City
-    state?: string; // Optional, State
-    landmarks?: Landmark[]; // Optional, Array of nearby landmarks
-    location?: Location; // Optional, Geographic coordinates
-};
+    projectStatus?: string;
+    configurations?: string;
+    superBuiltUpArea?: string;
+    reraCarpetArea?: string;
+    apartmentBlueprintUrls?: string[];
+    typicalFloorPlanUrls?: string[];
+    address?: string;
+    city?: string;
+    state?: string;
+    landmarks?: Landmark[] | any[]; // Added any[] as an alternative type
+    location?: Location | any;      // Added any as an alternative type
+}
 
 
 
@@ -60,7 +60,7 @@ type PropertyTS = {
 type ProjectStatus = 'all' | 'newLaunch' | 'underConstruction' | 'completed';
 
 const PropertiesPage = () => {
-    const [properties, setProperties] = useState<PropertyTS[]>([]);
+    const [properties, setProperties] = useState<Property[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
