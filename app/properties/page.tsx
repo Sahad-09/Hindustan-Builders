@@ -22,6 +22,10 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Search, Building2, MapPin, SquareStack, Maximize2, FileImage, Home } from 'lucide-react';
 import Link from 'next/link';
+import Image from "next/image";
+
+
+
 
 type ProjectStatus = 'all' | 'newLaunch' | 'underConstruction' | 'completed';
 
@@ -205,19 +209,25 @@ const PropertiesPage = () => {
                         filteredProperties.map((property, index) => (
                             <Card key={index} className="overflow-hidden hover:shadow-xl transition-all duration-300 group bg-card border-secondary">
                                 {/* Property Image */}
-                                <div className="relative aspect-[4/3] overflow-hidden">
+
+                                <div className="relative aspect-[4/3] overflow-hidden group">
                                     {property.imageUrl && property.imageUrl.length > 0 ? (
-                                        <img
+                                        <Image
                                             src={property.imageUrl[0]}
                                             alt={property.title}
-                                            className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-300"
+                                            fill
+                                            sizes="(max-width: 768px) 100vw, 50vw"
+                                            priority
+                                            className="object-cover group-hover:scale-110 transition-transform duration-300"
                                         />
                                     ) : (
                                         <div className="w-full h-full bg-secondary flex items-center justify-center">
                                             <Building2 className="w-12 h-12 text-muted-foreground" />
                                         </div>
                                     )}
-                                    <Badge className={`absolute top-4 right-4 ${getBadgeColor(property.projectStatus)} text-primary-foreground`}>
+                                    <Badge
+                                        className={`absolute top-4 right-4 ${getBadgeColor(property.projectStatus)} text-primary-foreground`}
+                                    >
                                         {property.projectStatus}
                                     </Badge>
                                 </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card'; // Adjust the import path based on your project structure
 
 const FeaturedProperties = () => (
@@ -8,11 +9,15 @@ const FeaturedProperties = () => (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[1, 2, 3].map((i) => (
                     <Card key={i} className="overflow-hidden hover:shadow-lg transition-shadow">
-                        <img
-                            src={`/api/placeholder/400/300`}
-                            alt={`Property ${i}`}
-                            className="w-full h-48 object-cover"
-                        />
+                        <div className="relative w-full h-48">
+                            <Image
+                                src={`/api/placeholder/400/300`}
+                                alt={`Property ${i}`}
+                                layout="fill"
+                                objectFit="cover"
+                                className="rounded-t-md"
+                            />
+                        </div>
                         <CardContent className="p-4">
                             <h3 className="text-xl font-semibold mb-2">Luxury Villa {i}</h3>
                             <p className="text-gray-600 mb-2">123 Example Street</p>

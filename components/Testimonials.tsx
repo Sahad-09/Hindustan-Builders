@@ -93,7 +93,9 @@ const Testimonials = () => {
                             </div>
 
                             <blockquote className="text-xl italic text-muted-foreground">
-                                &quot;{testimonials[current].feedback}&quot;
+                                {"\u201C"}
+                                {testimonials[current].feedback}
+                                {"\u201D"}
                             </blockquote>
 
                             <div className="space-y-2">

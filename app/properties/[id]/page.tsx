@@ -29,6 +29,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProjectSpecs from "@/components/ProjectSpecs";
 import { LandmarksSection } from "@/components/LandmarksSection";
 import { PropertyMap } from "@/components/PropertyMap";
+import Image from "next/image";
 
 
 
@@ -257,11 +258,14 @@ const PropertyDetailsPage = () => {
                     <TabsContent value="floorplan">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {property.typicalFloorPlanUrls.map((url, index) => (
-                                <Card key={index} className="overflow-hidden bg-card">
-                                    <img
+                                <Card key={index} className="overflow-hidden bg-card relative aspect-square">
+                                    <Image
                                         src={url}
                                         alt={`Floor Plan ${index + 1}`}
-                                        className="w-full h-full object-contain"
+                                        fill
+                                        sizes="(max-width: 768px) 100vw, 50vw"
+                                        className="object-contain p-2"
+                                        priority={index === 0}
                                     />
                                 </Card>
                             ))}

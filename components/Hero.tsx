@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Image from 'next/image';
 
 const HeroCarousel = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -49,14 +50,19 @@ const HeroCarousel = () => {
                         className={`absolute inset-0 transition-opacity duration-1000 
                         ${index === currentSlide ? "opacity-100" : "opacity-0"}`}
                     >
-                        <div className="absolute inset-0 ">
-                            <img
+
+
+                        <div className="absolute inset-0">
+                            <Image
                                 src={property.image}
                                 alt={property.title}
-                                className="w-full h-full object-cover rounded-md"
+                                layout="fill"
+                                objectFit="cover"
+                                className="rounded-md"
                             />
                             <div className="absolute inset-0 bg-background/50" />
                         </div>
+
 
                         <div className="relative h-full flex items-center justify-center">
                             <div className="container mx-auto px-6">
