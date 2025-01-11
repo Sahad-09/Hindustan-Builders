@@ -10,7 +10,7 @@ import {
 } from "./properties";
 import prisma from '../prismadb';
 
-interface Landmark {
+type Landmark = {
     name: string;
     distance: string;
     type: string;
@@ -147,7 +147,7 @@ export async function deleteLandmark(propertyId: string, landmarkIndex: number) 
         const property = await prisma.property.findUnique({
             where: { id: propertyId },
             select: { landmarks: true }
-        })
+        }) as { landmarks: Landmark[] } | null;
 
         if (!property) {
             throw new Error('Property not found')
@@ -159,7 +159,11 @@ export async function deleteLandmark(propertyId: string, landmarkIndex: number) 
         // Update the property with the new landmarks array
         const updatedProperty = await prisma.property.update({
             where: { id: propertyId },
-            data: { landmarks: updatedLandmarks }
+            data: {
+                landmarks: {
+                    set: updatedLandmarks
+                }
+            }
         })
 
         // Revalidate the page to reflect changes
@@ -173,18 +177,16 @@ export async function deleteLandmark(propertyId: string, landmarkIndex: number) 
     }
 }
 
-
-
 export async function addLandmark(
     propertyId: string,
-    newLandmark: { name: string; distance: string; type: string }
+    newLandmark: Landmark
 ) {
     try {
         // First, fetch the current property to get its landmarks
         const property = await prisma.property.findUnique({
             where: { id: propertyId },
             select: { landmarks: true }
-        })
+        }) as { landmarks: Landmark[] } | null;
 
         if (!property) {
             throw new Error('Property not found')
@@ -196,7 +198,11 @@ export async function addLandmark(
         // Update the property with the new landmarks array
         const updatedProperty = await prisma.property.update({
             where: { id: propertyId },
-            data: { landmarks: updatedLandmarks }
+            data: {
+                landmarks: {
+                    set: updatedLandmarks
+                }
+            }
         })
 
         // Revalidate the page to reflect changes
@@ -209,4 +215,3 @@ export async function addLandmark(
         return { success: false, error: 'Failed to add landmark' }
     }
 }
-
