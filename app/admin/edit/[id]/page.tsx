@@ -4,9 +4,13 @@ import EditPropertyForm from "@/components/EditPropertyForm";
 import AdminProtected from '@/components/AdminProtected';
 
 
-export default async function EditPropertyPage({ params }: { params: { id: string } }) {
+export default async function EditPropertyPage({
+    params,
+}: {
+    params: Promise<{ id: string }>;
+}) {
     try {
-        const { id } = params;
+        const { id } = await params;
         const response = await getPropertyByIdAction(id);
 
         if (!response.success) {
