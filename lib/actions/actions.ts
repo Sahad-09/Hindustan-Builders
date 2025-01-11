@@ -21,8 +21,20 @@ interface Location {
     longitude: number;
 }
 
+interface PropertyResponse {
+    success: boolean;
+    data?: any;
+    error?: string;
+}
+
+interface LandmarkResponse {
+    success: boolean;
+    property?: any;
+    error?: string;
+}
+
 // Get all properties
-export async function getPropertiesAction() {
+export async function getPropertiesAction(): Promise<PropertyResponse> {
     try {
         const properties = await getProperties();
         revalidatePath("/properties");
@@ -33,7 +45,7 @@ export async function getPropertiesAction() {
 }
 
 // Get single property
-export async function getPropertyByIdAction(id: string | undefined) {
+export async function getPropertyByIdAction(id: string | undefined): Promise<PropertyResponse> {
     try {
         const property = await getPropertyById(id);
         if (!property) {
@@ -62,25 +74,30 @@ export async function createPropertyAction(
     state: string,
     landmarks: Landmark[],
     location: Location
-) {
-    await createProperty(
-        title,
-        description,
-        imageKey,
-        imageUrl,
-        projectStatus,
-        configurations,
-        superBuiltUpArea,
-        reraCarpetArea,
-        apartmentBlueprintUrls,
-        typicalFloorPlanUrls,
-        address,
-        city,
-        state,
-        landmarks,
-        location
-    );
-    revalidatePath("/properties");
+): Promise<PropertyResponse> {
+    try {
+        const newProperty = await createProperty(
+            title,
+            description,
+            imageKey,
+            imageUrl,
+            projectStatus,
+            configurations,
+            superBuiltUpArea,
+            reraCarpetArea,
+            apartmentBlueprintUrls,
+            typicalFloorPlanUrls,
+            address,
+            city,
+            state,
+            landmarks as any[],
+            location as any
+        );
+        revalidatePath("/properties");
+        return { success: true, data: newProperty };
+    } catch (error) {
+        return { success: false, error: "Failed to create property" };
+    }
 }
 
 // Update property
@@ -101,7 +118,7 @@ export async function updatePropertyAction(
     state: string,
     landmarks: Landmark[],
     location: Location
-) {
+): Promise<PropertyResponse> {
     try {
         const updatedProperty = await updateProperty(
             id,
@@ -118,8 +135,8 @@ export async function updatePropertyAction(
             address,
             city,
             state,
-            landmarks,
-            location
+            landmarks as any[],
+            location as any
         );
         revalidatePath("/admin");
         revalidatePath(`/admin/${id}`);
@@ -130,7 +147,7 @@ export async function updatePropertyAction(
 }
 
 // Delete property
-export async function deletePropertyAction(id: string) {
+export async function deletePropertyAction(id: string): Promise<PropertyResponse> {
     try {
         const deletedProperty = await deleteProperty(id);
         revalidatePath("/admin");
@@ -140,23 +157,19 @@ export async function deletePropertyAction(id: string) {
     }
 }
 
-
-export async function deleteLandmark(propertyId: string, landmarkIndex: number) {
+export async function deleteLandmark(propertyId: string, landmarkIndex: number): Promise<LandmarkResponse> {
     try {
-        // First, fetch the current property to get its landmarks
         const property = await prisma.property.findUnique({
             where: { id: propertyId },
             select: { landmarks: true }
-        }) as { landmarks: Landmark[] } | null;
+        }) as { landmarks: any[] } | null;
 
         if (!property) {
             throw new Error('Property not found')
         }
 
-        // Create a new landmarks array without the specified index
-        const updatedLandmarks = property.landmarks.filter((_, index) => index !== landmarkIndex)
+        const updatedLandmarks = property.landmarks.filter((_, index) => index !== landmarkIndex);
 
-        // Update the property with the new landmarks array
         const updatedProperty = await prisma.property.update({
             where: { id: propertyId },
             data: {
@@ -164,38 +177,34 @@ export async function deleteLandmark(propertyId: string, landmarkIndex: number) 
                     set: updatedLandmarks
                 }
             }
-        })
+        });
 
-        // Revalidate the page to reflect changes
-        revalidatePath('/properties/[id]')
-        revalidatePath('/properties')
+        revalidatePath('/properties/[id]');
+        revalidatePath('/properties');
 
-        return { success: true, property: updatedProperty }
+        return { success: true, property: updatedProperty };
     } catch (error) {
-        console.error('Error deleting landmark:', error)
-        return { success: false, error: 'Failed to delete landmark' }
+        console.error('Error deleting landmark:', error);
+        return { success: false, error: 'Failed to delete landmark' };
     }
 }
 
 export async function addLandmark(
     propertyId: string,
     newLandmark: Landmark
-) {
+): Promise<LandmarkResponse> {
     try {
-        // First, fetch the current property to get its landmarks
         const property = await prisma.property.findUnique({
             where: { id: propertyId },
             select: { landmarks: true }
-        }) as { landmarks: Landmark[] } | null;
+        }) as { landmarks: any[] } | null;
 
         if (!property) {
-            throw new Error('Property not found')
+            throw new Error('Property not found');
         }
 
-        // Create a new landmarks array with the new landmark added
-        const updatedLandmarks = [...property.landmarks, newLandmark]
+        const updatedLandmarks = [...property.landmarks, newLandmark];
 
-        // Update the property with the new landmarks array
         const updatedProperty = await prisma.property.update({
             where: { id: propertyId },
             data: {
@@ -203,15 +212,14 @@ export async function addLandmark(
                     set: updatedLandmarks
                 }
             }
-        })
+        });
 
-        // Revalidate the page to reflect changes
-        revalidatePath('/properties/[id]')
-        revalidatePath('/properties')
+        revalidatePath('/properties/[id]');
+        revalidatePath('/properties');
 
-        return { success: true, property: updatedProperty }
+        return { success: true, property: updatedProperty };
     } catch (error) {
-        console.error('Error adding landmark:', error)
-        return { success: false, error: 'Failed to add landmark' }
+        console.error('Error adding landmark:', error);
+        return { success: false, error: 'Failed to add landmark' };
     }
 }

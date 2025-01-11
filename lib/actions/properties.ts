@@ -69,8 +69,8 @@ export async function createProperty(
                 address,
                 city,
                 state,
-                landmarks,
-                location
+                landmarks: landmarks as any[],
+                location: location as any
             }
         });
         return newProperty;
@@ -116,8 +116,12 @@ export async function updateProperty(
                 address,
                 city,
                 state,
-                landmarks,
-                location
+                landmarks: {
+                    set: landmarks as any[]
+                },
+                location: {
+                    set: location as any
+                }
             }
         });
         return updatedProperty;
