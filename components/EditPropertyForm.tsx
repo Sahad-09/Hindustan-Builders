@@ -74,19 +74,20 @@ interface EditPropertyFormProps {
         description: string;
         imageUrl: string[];
         imageKey: string;
-        projectStatus: string;
-        configurations: string;
-        superBuiltUpArea: string;
-        reraCarpetArea: string;
-        apartmentBlueprintUrls: string[];
-        typicalFloorPlanUrls: string[];
-        address: string;
-        city: string;
-        state: string;
-        landmarks: Landmark[];
-        location: Location;
+        projectStatus?: string;  // make optional
+        configurations?: string;  // make optional
+        superBuiltUpArea?: string;  // make optional
+        reraCarpetArea?: string;  // make optional
+        apartmentBlueprintUrls?: string[];  // make optional
+        typicalFloorPlanUrls?: string[];  // make optional
+        address?: string;  // make optional
+        city?: string;  // make optional
+        state?: string;  // make optional
+        landmarks?: Landmark[];  // make optional
+        location?: Location;  // make optional
     };
 }
+
 
 export default function EditPropertyForm({ property }: EditPropertyFormProps) {
     const router = useRouter();
