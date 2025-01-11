@@ -72,28 +72,28 @@ interface EditPropertyFormProps {
         id: string;
         title: string;
         description: string;
-        imageUrl: string[];
+        imageUrl: string[] | string;
         imageKey: string;
-        projectStatus?: string;  // make optional
-        configurations?: string;  // make optional
-        superBuiltUpArea?: string;  // make optional
-        reraCarpetArea?: string;  // make optional
-        apartmentBlueprintUrls?: string[];  // make optional
-        typicalFloorPlanUrls?: string[];  // make optional
-        address?: string;  // make optional
-        city?: string;  // make optional
-        state?: string;  // make optional
-        landmarks?: Landmark[];  // make optional
-        location?: Location;  // make optional
+        projectStatus: string;
+        configurations: string;
+        superBuiltUpArea: string;
+        reraCarpetArea: string;
+        apartmentBlueprintUrls: string[];
+        typicalFloorPlanUrls: string[];
+        address: string;
+        city: string;
+        state: string;
+        landmarks: Landmark[];
+        location: Location;
     };
 }
-
 
 export default function EditPropertyForm({ property }: EditPropertyFormProps) {
     const router = useRouter();
     const { toast } = useToast();
     const [propertyImages, setPropertyImages] = useState<ImageData>({
-        urls: property?.imageUrl || [],
+        urls: Array.isArray(property?.imageUrl) ? property?.imageUrl : [property?.imageUrl || ''],
+
         key: property?.imageKey || ""
     });
     const [landmarks, setLandmarks] = useState<Landmark[]>([]);
