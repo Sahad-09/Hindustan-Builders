@@ -13,19 +13,19 @@ type PropertyTS = {
     id: string;
     title: string;
     description: string;
-    imageUrl: string[];
+    imageUrl: string[] | string;
     imageKey: string;
-    projectStatus: string;
-    configurations: string;
-    superBuiltUpArea: string;
-    reraCarpetArea: string;
-    apartmentBlueprintUrls: string[];
-    typicalFloorPlanUrls: string[];
-    address: string;
-    city: string;
-    state: string;
-    landmarks: Landmark[];
-    location: Location;
+    projectStatus?: string;
+    configurations?: string;
+    superBuiltUpArea?: string;
+    reraCarpetArea?: string;
+    apartmentBlueprintUrls?: string[];
+    typicalFloorPlanUrls?: string[];
+    address?: string;
+    city?: string;
+    state?: string;
+    landmarks?: Landmark[];
+    location?: Location;
 };
 
 type Landmark = {
