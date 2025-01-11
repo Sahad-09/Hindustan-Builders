@@ -18,7 +18,7 @@ interface Landmark {
 
 interface Property {
     id: string;
-    landmarks: Landmark[] | null;
+    landmarks?: Landmark[] | null;
 }
 
 interface LandmarksCardProps {
