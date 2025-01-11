@@ -6,9 +6,39 @@ import { Pencil, Trash2, Plus } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getPropertiesAction, deletePropertyAction } from '@/lib/actions/actions';
-import { PropertyTS } from '@/types/properties';
 import { useCallback } from 'react';
 import AdminProtected from '@/components/AdminProtected';
+
+type PropertyTS = {
+    id: string;
+    title: string;
+    description: string;
+    imageUrl: string[];
+    imageKey: string;
+    projectStatus: string;
+    configurations: string;
+    superBuiltUpArea: string;
+    reraCarpetArea: string;
+    apartmentBlueprintUrls: string[];
+    typicalFloorPlanUrls: string[];
+    address: string;
+    city: string;
+    state: string;
+    landmarks: Landmark[];
+    location: Location;
+};
+
+type Landmark = {
+    name: string;
+    distance: string;
+    type: string;
+};
+
+type Location = {
+    latitude: number;
+    longitude: number;
+};
+
 
 const AdminDashboard = () => {
     const [isDeleting, setIsDeleting] = React.useState<string | null>(null);
