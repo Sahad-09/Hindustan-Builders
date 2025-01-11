@@ -50,14 +50,14 @@ const Testimonials = () => {
     }, []);
 
     return (
-        <section className="py-16 ">
+        <section className="py-16">
             <div className="container mx-auto px-6">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="text-center mb-12"
                 >
-                    <div className=" flex justify-center gap-2">
+                    <div className="flex justify-center gap-2">
                         <Quote className="h-6 w-6 text-primary" />
                         <h2 className="text-5xl font-bold text-white mb-4 tracking-tight">
                             Client Success Stories
@@ -78,7 +78,10 @@ const Testimonials = () => {
                             <div className="flex justify-center">
                                 <Avatar className="h-24 w-24 border-4 border-primary/20">
                                     <AvatarFallback className="bg-primary/5">
-                                        {testimonials[current].name.split(" ").map((n) => n[0]).join("")}
+                                        {testimonials[current].name
+                                            .split(" ")
+                                            .map((n) => n[0])
+                                            .join("")}
                                     </AvatarFallback>
                                 </Avatar>
                             </div>
@@ -90,7 +93,7 @@ const Testimonials = () => {
                             </div>
 
                             <blockquote className="text-xl italic text-muted-foreground">
-                                "{testimonials[current].feedback}"
+                                &quot;{testimonials[current].feedback}&quot;
                             </blockquote>
 
                             <div className="space-y-2">
