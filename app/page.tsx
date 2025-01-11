@@ -2,7 +2,6 @@
 
 import { getPropertiesAction } from '@/lib/actions/actions';
 import { useEffect, useState } from 'react';
-import { PropertyTS } from '@/types/properties';
 import PropertyCards from '@/components/PropertyCards';
 import Hero from '@/components/Hero';
 import FeaturedProperties from '@/components/FeaturedProperties';
@@ -12,6 +11,37 @@ import Services from '@/components/Services';
 import ImpactStatistics from '@/components/ImpactStatistics';
 import ContactForm from '@/components/ContactForm';
 import WhatsAppContact from '@/components/WhatsAppContact';
+
+type Landmark = {
+  name: string;
+  distance: string;
+  type: string;
+};
+
+type Location = {
+  latitude: number;
+  longitude: number;
+};
+
+type PropertyTS = {
+  id: string;
+  title: string;
+  description: string;
+  imageUrl: string[];
+  imageKey: string;
+  projectStatus: string; // e.g., "New Launch"
+  configurations: string; // e.g., "2 BHK"
+  superBuiltUpArea: string; // e.g., "832 (Sq.Ft.)"
+  reraCarpetArea: string; // e.g., "612 (Sq.Ft.)"
+  apartmentBlueprintUrls: string[]; // URLs for apartment blueprints
+  typicalFloorPlanUrls: string[]; // URLs for typical floor plan blueprints
+  address: string; // Property address
+  city: string; // City
+  state: string; // State
+  landmarks: Landmark[]; // Array of nearby landmarks
+  location: Location; // Geographic coordinates
+};
+
 
 export default function Home() {
   const [properties, setProperties] = useState<PropertyTS[]>([]);

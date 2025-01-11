@@ -1,6 +1,5 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { PropertyTS } from '@/types/properties';
 import { getPropertiesAction } from '@/lib/actions/actions';
 import {
     Card,
@@ -23,6 +22,37 @@ import { Badge } from "@/components/ui/badge";
 import { Search, Building2, MapPin, SquareStack, Maximize2, FileImage, Home } from 'lucide-react';
 import Link from 'next/link';
 import Image from "next/image";
+
+type Landmark = {
+    name: string;
+    distance: string;
+    type: string;
+};
+
+type Location = {
+    latitude: number;
+    longitude: number;
+};
+
+type PropertyTS = {
+    id: string;
+    title: string;
+    description: string;
+    imageUrl: string[];
+    imageKey: string;
+    projectStatus: string; // e.g., "New Launch"
+    configurations: string; // e.g., "2 BHK"
+    superBuiltUpArea: string; // e.g., "832 (Sq.Ft.)"
+    reraCarpetArea: string; // e.g., "612 (Sq.Ft.)"
+    apartmentBlueprintUrls: string[]; // URLs for apartment blueprints
+    typicalFloorPlanUrls: string[]; // URLs for typical floor plan blueprints
+    address: string; // Property address
+    city: string; // City
+    state: string; // State
+    landmarks: Landmark[]; // Array of nearby landmarks
+    location: Location; // Geographic coordinates
+};
+
 
 
 
@@ -56,29 +86,17 @@ const PropertiesPage = () => {
         fetchProperties();
     }, []);
 
-    const getStatusDisplay = (status: ProjectStatus) => {
-        switch (status) {
-            case 'newLaunch':
-                return 'New Launch';
-            case 'underConstruction':
-                return 'Under Construction';
-            case 'completed':
-                return 'Completed';
-            default:
-                return 'All Properties';
-        }
-    };
 
     const filteredProperties = properties.filter(property => {
         const searchLower = searchTerm.toLowerCase();
         const matchesSearch =
             property.title.toLowerCase().includes(searchLower) ||
             property.address?.toLowerCase().includes(searchLower) ||
-            property.city.toLowerCase().includes(searchLower);
+            property.city?.toLowerCase().includes(searchLower);
 
         if (activeFilter === 'all') return matchesSearch;
 
-        const propertyStatus = property.projectStatus.replace(/\s+/g, '') as ProjectStatus;
+        const propertyStatus = property.projectStatus?.replace(/\s+/g, '') as ProjectStatus;
         return matchesSearch && propertyStatus === activeFilter;
     });
 
@@ -226,7 +244,7 @@ const PropertiesPage = () => {
                                         </div>
                                     )}
                                     <Badge
-                                        className={`absolute top-4 right-4 ${getBadgeColor(property.projectStatus)} text-primary-foreground`}
+                                        className={`absolute top-4 right-4 ${getBadgeColor(property?.projectStatus)} text-primary-foreground`}
                                     >
                                         {property.projectStatus}
                                     </Badge>

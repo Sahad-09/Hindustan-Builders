@@ -48,19 +48,19 @@ interface Property {
     id: string;
     title: string;
     description: string;
-    imageUrl: string[];
+    imageUrl: string[] | string;
     imageKey: string;
-    projectStatus: string;
-    configurations: string;
-    superBuiltUpArea: string;
-    reraCarpetArea: string;
-    apartmentBlueprintUrls: string[];
-    typicalFloorPlanUrls: string[];
-    address: string;
-    city: string;
-    state: string;
-    landmarks: Landmark[];
-    location: Location;
+    projectStatus?: string;
+    configurations?: string;
+    superBuiltUpArea?: string;
+    reraCarpetArea?: string;
+    apartmentBlueprintUrls?: string[];
+    typicalFloorPlanUrls?: string[];
+    address?: string;
+    city?: string;
+    state?: string;
+    landmarks?: Landmark[];
+    location?: Location;
 }
 
 type PropertyResponse = {
@@ -257,7 +257,7 @@ const PropertyDetailsPage = () => {
                     {/* Floor Plan Tab */}
                     <TabsContent value="floorplan">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {property.typicalFloorPlanUrls.map((url, index) => (
+                            {property.typicalFloorPlanUrls?.map((url, index) => (
                                 <Card key={index} className="overflow-hidden bg-card relative aspect-square">
                                     <Image
                                         src={url}
@@ -275,7 +275,7 @@ const PropertyDetailsPage = () => {
                     {/* Blueprint Tab */}
                     <TabsContent value="blueprint">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {property.apartmentBlueprintUrls.map((url, index) => (
+                            {property.apartmentBlueprintUrls?.map((url, index) => (
                                 <Card key={index} className="overflow-hidden bg-card">
                                     <img
                                         src={url}
@@ -338,7 +338,8 @@ const PropertyDetailsPage = () => {
                 <div className="mt-8 space-y-6">
                     <LandmarksSection landmarks={property?.landmarks || []} />
 
-                    <PropertyMap location={property.location} address={property.address} />
+                    <PropertyMap location={property?.location} address={property?.address} />
+
                 </div>
                 <ProjectSpecs />
             </div>

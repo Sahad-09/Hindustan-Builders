@@ -1,6 +1,5 @@
 "use client";
 
-import { PropertyTS } from '@/types/properties';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
@@ -8,6 +7,37 @@ import { Home } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button'; // Shadcn Button
 import Link from 'next/link'; // Next.js Link
+
+type Landmark = {
+    name: string;
+    distance: string;
+    type: string;
+};
+
+type Location = {
+    latitude: number;
+    longitude: number;
+};
+
+type PropertyTS = {
+    id: string;
+    title: string;
+    description: string;
+    imageUrl: string[];
+    imageKey: string;
+    projectStatus: string; // e.g., "New Launch"
+    configurations: string; // e.g., "2 BHK"
+    superBuiltUpArea: string; // e.g., "832 (Sq.Ft.)"
+    reraCarpetArea: string; // e.g., "612 (Sq.Ft.)"
+    apartmentBlueprintUrls: string[]; // URLs for apartment blueprints
+    typicalFloorPlanUrls: string[]; // URLs for typical floor plan blueprints
+    address: string; // Property address
+    city: string; // City
+    state: string; // State
+    landmarks: Landmark[]; // Array of nearby landmarks
+    location: Location; // Geographic coordinates
+};
+
 
 interface PropertyCardsProps {
     properties: PropertyTS[];

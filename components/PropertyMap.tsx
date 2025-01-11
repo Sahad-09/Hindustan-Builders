@@ -8,12 +8,12 @@ type Location = {
 };
 
 type PropertyMapProps = {
-    location: Location;
-    address: string;
+    location?: Location; // location is now optional
+    address?: string; // address is now optional
 };
 
 export const PropertyMap = ({ location, address }: PropertyMapProps) => {
-    const mapSrc = `https://www.google.com/maps?q=${location.latitude},${location.longitude}&output=embed`;
+    const mapSrc = `https://www.google.com/maps?q=${location?.latitude},${location?.longitude}&output=embed`;
 
     return (
         <Card className="bg-card">
