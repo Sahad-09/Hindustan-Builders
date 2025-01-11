@@ -29,18 +29,19 @@ type PropertyTS = {
   description: string;
   imageUrl: string[];
   imageKey: string;
-  projectStatus: string; // e.g., "New Launch"
-  configurations: string; // e.g., "2 BHK"
-  superBuiltUpArea: string; // e.g., "832 (Sq.Ft.)"
-  reraCarpetArea: string; // e.g., "612 (Sq.Ft.)"
-  apartmentBlueprintUrls: string[]; // URLs for apartment blueprints
-  typicalFloorPlanUrls: string[]; // URLs for typical floor plan blueprints
-  address: string; // Property address
-  city: string; // City
-  state: string; // State
-  landmarks: Landmark[]; // Array of nearby landmarks
-  location: Location; // Geographic coordinates
+  projectStatus?: string; // Optional field, e.g., "New Launch"
+  configurations?: string; // Optional, e.g., "2 BHK"
+  superBuiltUpArea?: string; // Optional, e.g., "832 (Sq.Ft.)"
+  reraCarpetArea?: string; // Optional, e.g., "612 (Sq.Ft.)"
+  apartmentBlueprintUrls?: string[]; // Optional, URLs for apartment blueprints
+  typicalFloorPlanUrls?: string[]; // Optional, URLs for typical floor plan blueprints
+  address?: string; // Optional, Property address
+  city?: string; // Optional, City
+  state?: string; // Optional, State
+  landmarks?: Landmark[]; // Optional, Array of nearby landmarks
+  location?: Location; // Optional, Geographic coordinates
 };
+
 
 
 export default function Home() {
