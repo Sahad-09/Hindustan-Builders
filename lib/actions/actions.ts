@@ -90,8 +90,8 @@ export async function createPropertyAction(
             address,
             city,
             state,
-            landmarks as any[],
-            location as any
+            landmarks,
+            location
         );
         revalidatePath("/properties");
         return { success: true, data: newProperty };
@@ -135,8 +135,8 @@ export async function updatePropertyAction(
             address,
             city,
             state,
-            landmarks as any[],
-            location as any
+            landmarks,
+            location
         );
         revalidatePath("/admin");
         revalidatePath(`/admin/${id}`);
@@ -159,23 +159,21 @@ export async function deletePropertyAction(id: string): Promise<PropertyResponse
 
 export async function deleteLandmark(propertyId: string, landmarkIndex: number): Promise<LandmarkResponse> {
     try {
-        const property = await prisma.property.findUnique({
-            where: { id: propertyId },
-            select: { landmarks: true }
-        }) as { landmarks: any[] } | null;
+        const property = await prisma.property.findFirst({
+            where: { id: propertyId }
+        });
 
         if (!property) {
-            throw new Error('Property not found')
+            throw new Error('Property not found');
         }
 
-        const updatedLandmarks = property.landmarks.filter((_, index) => index !== landmarkIndex);
+        const landmarks = property.landmarks as Landmark[];
+        const updatedLandmarks = landmarks.filter((_, index) => index !== landmarkIndex);
 
         const updatedProperty = await prisma.property.update({
             where: { id: propertyId },
             data: {
-                landmarks: {
-                    set: updatedLandmarks
-                }
+                landmarks: updatedLandmarks
             }
         });
 
@@ -194,23 +192,21 @@ export async function addLandmark(
     newLandmark: Landmark
 ): Promise<LandmarkResponse> {
     try {
-        const property = await prisma.property.findUnique({
-            where: { id: propertyId },
-            select: { landmarks: true }
-        }) as { landmarks: any[] } | null;
+        const property = await prisma.property.findFirst({
+            where: { id: propertyId }
+        });
 
         if (!property) {
             throw new Error('Property not found');
         }
 
-        const updatedLandmarks = [...property.landmarks, newLandmark];
+        const landmarks = property.landmarks as Landmark[];
+        const updatedLandmarks = [...landmarks, newLandmark];
 
         const updatedProperty = await prisma.property.update({
             where: { id: propertyId },
             data: {
-                landmarks: {
-                    set: updatedLandmarks
-                }
+                landmarks: updatedLandmarks
             }
         });
 
