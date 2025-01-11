@@ -23,7 +23,7 @@ type PropertyTS = {
     id: string;
     title: string;
     description: string;
-    imageUrl: string[];
+    imageUrl: string[] | string;
     imageKey: string;
     projectStatus?: string; // Optional field, e.g., "New Launch"
     configurations?: string; // Optional, e.g., "2 BHK"
