@@ -18,12 +18,30 @@ interface Landmark {
 
 interface Property {
     id: string;
-    landmarks?: Landmark[] | null;
+    title: string;
+    description: string;
+    imageUrl: string[];
+    imageKey: string;
+    projectStatus: string;
+    configurations: string;
+    superBuiltUpArea: string;
+    reraCarpetArea: string;
+    apartmentBlueprintUrls: string[];
+    typicalFloorPlanUrls: string[];
+    address: string;
+    city: string;
+    state: string;
+    landmarks?: Landmark[] | null;  // Updated to handle landmarks as an array of Landmark
+    location?: {
+        latitude: number;
+        longitude: number;
+    } | null;  // Updated to handle location as an object with latitude and longitude
 }
 
 interface LandmarksCardProps {
     id: string | undefined;
 }
+
 
 const LandmarksCard: React.FC<LandmarksCardProps> = ({ id }) => {
     const { toast } = useToast();
