@@ -66,7 +66,6 @@ interface Location {
     latitude: number;
     longitude: number;
 }
-
 interface EditPropertyFormProps {
     property?: {
         id: string;
@@ -74,19 +73,20 @@ interface EditPropertyFormProps {
         description: string;
         imageUrl: string[] | string;
         imageKey: string;
-        projectStatus: string;
-        configurations: string;
-        superBuiltUpArea: string;
-        reraCarpetArea: string;
-        apartmentBlueprintUrls: string[];
-        typicalFloorPlanUrls: string[];
-        address: string;
-        city: string;
-        state: string;
-        landmarks: Landmark[];
-        location: Location;
+        projectStatus?: string;
+        configurations?: string;
+        superBuiltUpArea?: string;
+        reraCarpetArea?: string;
+        apartmentBlueprintUrls?: string[];
+        typicalFloorPlanUrls?: string[];
+        address?: string;
+        city?: string;
+        state?: string;
+        landmarks?: Landmark[];
+        location?: Location;
     };
 }
+
 
 export default function EditPropertyForm({ property }: EditPropertyFormProps) {
     const router = useRouter();
