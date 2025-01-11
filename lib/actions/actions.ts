@@ -141,45 +141,6 @@ export async function deletePropertyAction(id: string) {
 }
 
 
-// Create landmark by property ID
-export async function createLandmarkByIdAction(
-    propertyId: string,
-    name: string,
-    distance: string,
-    type: string
-) {
-    try {
-        // First, check if the property exists
-        const property = await getPropertyById(propertyId);
-        if (!property) {
-            return { success: false, error: "Property not found" };
-        }
-
-        // Create a new landmark and add it to the property's landmarks array
-        const updatedProperty = await prisma.property.update({
-            where: { id: propertyId },
-            data: {
-                landmarks: {
-                    push: {
-                        name,
-                        distance,
-                        type
-                    }
-                }
-            }
-        });
-
-        // Optionally, revalidate paths
-        revalidatePath(`/properties/${propertyId}`);
-
-        return { success: true, data: updatedProperty };
-    } catch (error) {
-        console.error("Error creating landmark:", error);
-        return { success: false, error: "Failed to create landmark" };
-    }
-}
-
-
 export async function deleteLandmark(propertyId: string, landmarkIndex: number) {
     try {
         // First, fetch the current property to get its landmarks
