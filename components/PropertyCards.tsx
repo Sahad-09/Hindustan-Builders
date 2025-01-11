@@ -25,17 +25,17 @@ type PropertyTS = {
     description: string;
     imageUrl: string[] | string;
     imageKey: string;
-    projectStatus?: string; // Optional field, e.g., "New Launch"
-    configurations?: string; // Optional, e.g., "2 BHK"
-    superBuiltUpArea?: string; // Optional, e.g., "832 (Sq.Ft.)"
-    reraCarpetArea?: string; // Optional, e.g., "612 (Sq.Ft.)"
-    apartmentBlueprintUrls?: string[]; // Optional, URLs for apartment blueprints
-    typicalFloorPlanUrls?: string[]; // Optional, URLs for typical floor plan blueprints
-    address?: string; // Optional, Property address
-    city?: string; // Optional, City
-    state?: string; // Optional, State
-    landmarks?: Landmark[]; // Optional, Array of nearby landmarks
-    location?: Location; // Optional, Geographic coordinates
+    projectStatus?: string;
+    configurations?: string;
+    superBuiltUpArea?: string;
+    reraCarpetArea?: string;
+    apartmentBlueprintUrls?: string[];
+    typicalFloorPlanUrls?: string[];
+    address?: string;
+    city?: string;
+    state?: string;
+    landmarks?: Landmark[] | any[]; // Added any[] as an alternative type
+    location?: Location | any;      // Added any as an alternative type
 };
 
 
