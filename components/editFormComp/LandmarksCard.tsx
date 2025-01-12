@@ -23,19 +23,19 @@ interface Property {
     description: string;
     imageUrl: string[];
     imageKey: string;
-    projectStatus: string;
-    configurations: string;
-    superBuiltUpArea: string;
-    reraCarpetArea: string;
-    apartmentBlueprintUrls: string[];
-    typicalFloorPlanUrls: string[];
-    address: string;
-    city: string;
-    state: string;
-    landmarks: Landmark[];  // Updated to handle landmarks as an array of Landmark
+    projectStatus?: string;
+    configurations?: string;
+    superBuiltUpArea?: string;
+    reraCarpetArea?: string;
+    apartmentBlueprintUrls?: string[];
+    typicalFloorPlanUrls?: string[];
+    address?: string;
+    city?: string;
+    state?: string;
+    landmarks?: Landmark[];  // Updated to handle landmarks as an array of Landmark
     location?: {
-        latitude: number;
-        longitude: number;
+        latitude?: number;
+        longitude?: number;
     } | null;  // Updated to handle location as an object with latitude and longitude
 }
 
