@@ -163,6 +163,7 @@ export default function EditPropertyForm({ property }: EditPropertyFormProps) {
                 toast({
                     title: "Success",
                     description: "Property updated successfully",
+                    variant: "success"
                 });
                 router.push("/admin");
                 router.refresh();
@@ -224,6 +225,7 @@ export default function EditPropertyForm({ property }: EditPropertyFormProps) {
                     toast({
                         title: "Success",
                         description: "Image removed successfully",
+                        variant: "default"
                     });
                 }
             } else {
@@ -234,6 +236,7 @@ export default function EditPropertyForm({ property }: EditPropertyFormProps) {
                 toast({
                     title: "Success",
                     description: "Image removed successfully",
+                    variant: "default"
                 });
             }
         } catch (error) {
@@ -321,6 +324,7 @@ export default function EditPropertyForm({ property }: EditPropertyFormProps) {
                                     toast({
                                         title: "Success",
                                         description: `Successfully uploaded ${res.length} image${res.length !== 1 ? 's' : ''}`,
+                                        variant: "success"
                                     });
                                 }}
                                 onUploadError={(error: Error) => {

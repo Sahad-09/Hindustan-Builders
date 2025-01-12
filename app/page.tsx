@@ -11,6 +11,7 @@ import Services from '@/components/Services';
 import ImpactStatistics from '@/components/ImpactStatistics';
 import ContactForm from '@/components/ContactForm';
 import WhatsAppContact from '@/components/WhatsAppContact';
+import CircleSlider from '@/components/CircleSlider';
 
 interface Landmark {
   name: string;
@@ -98,6 +99,13 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-tr from-[#FBFAFB] via-[#FBFAFB] to-transparent rounded-full blur-3xl opacity-10 transform -translate-x-1/4"></div>
         <div className="container mx-auto relative">
           <ImpactStatistics />
+        </div>
+      </div>
+
+      <div className="relative mt-16">
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#FBFAFB] via-[#FBFAFB] to-transparent rounded-full blur-3xl opacity-10 transform -translate-x-1/4"></div>
+        <div className="container mx-auto relative">
+          <CircleSlider />
         </div>
       </div>
 

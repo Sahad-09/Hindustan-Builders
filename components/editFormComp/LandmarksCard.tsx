@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { deleteLandmark, addLandmark as addLandmarkAPI } from "@/lib/actions/landmark-actions";
+import { deleteLandmarkAction, addLandmarkAction } from "@/lib/actions/landmark-actions";
 import { getPropertyByIdAction } from "@/lib/actions/actions";
 import { MapPin, Building2, GraduationCap, Building, ShoppingBag } from 'lucide-react';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
@@ -96,7 +96,7 @@ const LandmarksCard: React.FC<LandmarksCardProps> = ({ id }) => {
 
         try {
             setDeleting(index);
-            const response = await deleteLandmark(id, index);
+            const response = await deleteLandmarkAction(id, index);
 
             if (response.success) {
                 setLandmarks((prevLandmarks) =>
@@ -131,7 +131,7 @@ const LandmarksCard: React.FC<LandmarksCardProps> = ({ id }) => {
         }
 
         try {
-            const response = await addLandmarkAPI(id, newLandmark);
+            const response = await addLandmarkAction(id, newLandmark);
 
             if (response.success) {
                 setLandmarks((prevLandmarks) => [
@@ -143,6 +143,7 @@ const LandmarksCard: React.FC<LandmarksCardProps> = ({ id }) => {
                 toast({
                     title: "Success",
                     description: "Landmark added successfully",
+                    variant: "success"
                 });
             } else {
                 throw new Error(response.error || "Failed to add landmark");
@@ -154,15 +155,6 @@ const LandmarksCard: React.FC<LandmarksCardProps> = ({ id }) => {
                 variant: "destructive",
             });
         }
-    };
-
-    const updateLandmark = (index: number, field: keyof Landmark, value: string) => {
-        const updatedLandmarks = [...(landmarks || [])];
-        updatedLandmarks[index] = {
-            ...updatedLandmarks[index],
-            [field]: value
-        };
-        setLandmarks(updatedLandmarks);
     };
 
     const IconOption = ({ value, label, icon: Icon }: any) => (
