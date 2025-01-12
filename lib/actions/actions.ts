@@ -9,6 +9,7 @@ import {
     getPropertyById
 } from "./properties";
 import prisma from '../prismadb';
+import { Prisma } from '@prisma/client';
 
 type Landmark = {
     name: string;
@@ -31,6 +32,29 @@ interface LandmarkResponse {
     success: boolean;
     property?: any;
     error?: string;
+}
+
+function parseLandmarks(json: Prisma.JsonValue | null): Landmark[] {
+    if (!Array.isArray(json)) {
+        throw new Error('Invalid landmarks format. Expected an array.');
+    }
+
+    return json.map(item => {
+        if (
+            typeof item === 'object' &&
+            item !== null &&
+            'name' in item &&
+            'distance' in item &&
+            'type' in item
+        ) {
+            return {
+                name: String((item as any).name),
+                distance: String((item as any).distance),
+                type: String((item as any).type),
+            };
+        }
+        throw new Error('Invalid landmark item format.');
+    });
 }
 
 // Get all properties
@@ -146,34 +170,23 @@ export async function updatePropertyAction(
     }
 }
 
-// Delete property
-export async function deletePropertyAction(id: string): Promise<PropertyResponse> {
-    try {
-        const deletedProperty = await deleteProperty(id);
-        revalidatePath("/admin");
-        return { success: true, data: deletedProperty };
-    } catch (error) {
-        return { success: false, error: "Failed to delete property" };
-    }
-}
-
 export async function deleteLandmark(propertyId: string, landmarkIndex: number): Promise<LandmarkResponse> {
     try {
         const property = await prisma.property.findFirst({
             where: { id: propertyId }
         });
 
-        if (!property) {
-            throw new Error('Property not found');
+        if (!property || !property.landmarks) {
+            throw new Error('Property not found or landmarks not available');
         }
 
-        const landmarks = property.landmarks as Landmark[];
+        const landmarks = parseLandmarks(property.landmarks);
         const updatedLandmarks = landmarks.filter((_, index) => index !== landmarkIndex);
 
         const updatedProperty = await prisma.property.update({
             where: { id: propertyId },
             data: {
-                landmarks: updatedLandmarks
+                landmarks: updatedLandmarks as Prisma.InputJsonValue[] // Ensure compatibility
             }
         });
 
@@ -187,6 +200,7 @@ export async function deleteLandmark(propertyId: string, landmarkIndex: number):
     }
 }
 
+
 export async function addLandmark(
     propertyId: string,
     newLandmark: Landmark
@@ -196,17 +210,17 @@ export async function addLandmark(
             where: { id: propertyId }
         });
 
-        if (!property) {
-            throw new Error('Property not found');
+        if (!property || !property.landmarks) {
+            throw new Error('Property not found or landmarks not available');
         }
 
-        const landmarks = property.landmarks as Landmark[];
+        const landmarks = parseLandmarks(property.landmarks);
         const updatedLandmarks = [...landmarks, newLandmark];
 
         const updatedProperty = await prisma.property.update({
             where: { id: propertyId },
             data: {
-                landmarks: updatedLandmarks
+                landmarks: updatedLandmarks as Prisma.InputJsonValue[] // Ensure compatibility
             }
         });
 
@@ -219,3 +233,4 @@ export async function addLandmark(
         return { success: false, error: 'Failed to add landmark' };
     }
 }
+
