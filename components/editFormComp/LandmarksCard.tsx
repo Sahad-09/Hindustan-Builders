@@ -31,7 +31,7 @@ interface Property {
     address: string;
     city: string;
     state: string;
-    landmarks?: Landmark[] | null;  // Updated to handle landmarks as an array of Landmark
+    landmarks: Landmark[];  // Updated to handle landmarks as an array of Landmark
     location?: {
         latitude: number;
         longitude: number;
