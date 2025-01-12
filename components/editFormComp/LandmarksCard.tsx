@@ -10,18 +10,22 @@ import { FormItem, FormLabel, FormControl } from "@/components/ui/form";
 import { Plus, X, Trash2, Save } from "lucide-react";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/hooks/use-toast";
-
-type Landmark = {
+interface Landmark {
     name: string;
     distance: string;
     type: string;
+}
+
+interface Location {
+    latitude: number;
+    longitude: number;
 }
 
 interface Property {
     id: string;
     title: string;
     description: string;
-    imageUrl: string[];
+    imageUrl: string[] | string;
     imageKey: string;
     projectStatus?: string;
     configurations?: string;
@@ -32,11 +36,8 @@ interface Property {
     address?: string;
     city?: string;
     state?: string;
-    landmarks?: Landmark[];  // Updated to handle landmarks as an array of Landmark
-    location?: {
-        latitude?: number;
-        longitude?: number;
-    } | null;  // Updated to handle location as an object with latitude and longitude
+    landmarks?: Landmark[] | any[]; // Added any[] as an alternative type
+    location?: Location | any;      // Added any as an alternative type
 }
 
 interface LandmarksCardProps {
