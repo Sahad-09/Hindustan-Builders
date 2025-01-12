@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { getPropertyByIdAction, deleteLandmark, addLandmark as addLandmarkAPI } from "@/lib/actions/actions";
+import { deleteLandmark, addLandmark as addLandmarkAPI } from "@/lib/actions/landmark-actions";
+import { getPropertyByIdAction } from "@/lib/actions/actions";
 import { MapPin, Building2, GraduationCap, Building, ShoppingBag } from 'lucide-react';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
@@ -10,7 +11,7 @@ import { Plus, X, Trash2, Save } from "lucide-react";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/hooks/use-toast";
 
-interface Landmark {
+type Landmark = {
     name: string;
     distance: string;
     type: string;
