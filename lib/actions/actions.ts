@@ -11,29 +11,6 @@ import {
 import prisma from '../prismadb';
 import { Prisma } from '@prisma/client';
 
-type Landmark = {
-    name: string;
-    distance: string;
-    type: string;
-}
-
-interface Location {
-    latitude: number;
-    longitude: number;
-}
-
-interface PropertyResponse {
-    success: boolean;
-    data?: any;
-    error?: string;
-}
-
-interface LandmarkResponse {
-    success: boolean;
-    property?: any;
-    error?: string;
-}
-
 function parseLandmarks(json: Prisma.JsonValue | null): Landmark[] {
     if (!Array.isArray(json)) {
         throw new Error('Invalid landmarks format. Expected an array.');
@@ -55,6 +32,30 @@ function parseLandmarks(json: Prisma.JsonValue | null): Landmark[] {
         }
         throw new Error('Invalid landmark item format.');
     });
+}
+
+
+type Landmark = {
+    name: string;
+    distance: string;
+    type: string;
+}
+
+interface Location {
+    latitude: number;
+    longitude: number;
+}
+
+interface PropertyResponse {
+    success: boolean;
+    data?: any;
+    error?: string;
+}
+
+interface LandmarkResponse {
+    success: boolean;
+    property?: any;
+    error?: string;
 }
 
 // Get all properties
@@ -170,6 +171,18 @@ export async function updatePropertyAction(
     }
 }
 
+// Delete property
+export async function deletePropertyAction(id: string): Promise<PropertyResponse> {
+    try {
+        const deletedProperty = await deleteProperty(id);
+        revalidatePath("/admin");
+        return { success: true, data: deletedProperty };
+    } catch (error) {
+        return { success: false, error: "Failed to delete property" };
+    }
+}
+
+
 export async function deleteLandmark(propertyId: string, landmarkIndex: number): Promise<LandmarkResponse> {
     try {
         const property = await prisma.property.findFirst({
@@ -233,4 +246,3 @@ export async function addLandmark(
         return { success: false, error: 'Failed to add landmark' };
     }
 }
-
