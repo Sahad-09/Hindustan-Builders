@@ -327,7 +327,7 @@ const PropertyDetailsPage = () => {
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-muted-foreground leading-relaxed">
+                            <p className="text-muted-foreground leading-relaxed break-words overflow-hidden">
                                 {property.description}
                             </p>
                         </CardContent>
